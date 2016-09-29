@@ -5,14 +5,21 @@ var pkgTemplate = `{{with .PDoc}}
 {{comment_md .Doc}}
 
 {{if .Consts}}
-* [Constants](#pkg-constants){{end}}{{if .Vars}}
-* [Variables](#pkg-variables){{end}}
+* [Constants](#constants){{end}}{{if .Vars}}
+* [Variables](#variables){{end}}
 {{range .Funcs }}
 * [{{title .Name}}](#{{archor .Name}}){{- end}}{{- range .Types}}{{$tname := .Name}}
 * [Type {{title .Name}}](#{{archor "Type" .Name}}){{- range .Funcs}}
   * [{{title .Name}}](#{{archor $tname .Name}}){{- end}}{{- range .Methods}}
   * [{{title .Name}}](#{{archor $tname .Name}}){{- end}}{{- end}}{{- if $.Notes}}{{- range $marker, $item := $.Notes}}
 * [{{noteTitle $marker | html}}s](#pkg-note-{{$marker}}){{end}}{{end}}
+
+{{with .Consts}}## Constants
+{{range .}}{{node $ .Decl | pre}}
+{{comment_md .Doc}}{{end}}{{end}}
+{{with .Vars}}## Variables
+{{range .}}{{node $ .Decl | pre}}
+{{comment_md .Doc}}{{end}}{{end}}
 
 {{range .Funcs}}## {{title .Name}}
 {{node $ .Decl | pre}}

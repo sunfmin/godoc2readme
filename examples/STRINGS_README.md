@@ -71,6 +71,9 @@ For information about UTF-8 strings in Go, see <a href="https://blog.golang.org/
   * [Replace](#replacer-replace)
   * [Write String](#replacer-write-string)
 
+
+
+
 ## Compare
 ``` go
 func Compare(a, b string) int

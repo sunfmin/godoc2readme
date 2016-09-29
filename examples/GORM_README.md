@@ -3,7 +3,7 @@
 
 
 
-* [Variables](#pkg-variables)
+* [Variables](#variables)
 
 * [Expr](#expr)
 * [Parse Field Struct For Dialect](#parse-field-struct-for-dialect)
@@ -171,6 +171,52 @@
   * [Skip Left](#scope-skip-left)
   * [Table Name](#scope-table-name)
 * [Type Struct Field](#type-struct-field)
+
+
+## Variables
+``` go
+var (
+    // ErrRecordNotFound record not found error, happens when haven't find any matched data when looking up with a struct
+    ErrRecordNotFound = errors.New("record not found")
+    // ErrInvalidSQL invalid SQL error, happens when you passed invalid SQL
+    ErrInvalidSQL = errors.New("invalid SQL")
+    // ErrInvalidTransaction invalid transaction when you are trying to `Commit` or `Rollback`
+    ErrInvalidTransaction = errors.New("no valid transaction")
+    // ErrCantStartTransaction can't start transaction when you are trying to start one with `Begin`
+    ErrCantStartTransaction = errors.New("can't start transaction")
+    // ErrUnaddressable unaddressable value
+    ErrUnaddressable = errors.New("using unaddressable value")
+)
+```
+``` go
+var DefaultCallback = &Callback{}
+```
+DefaultCallback default callbacks defined by gorm
+
+``` go
+var DefaultTableNameHandler = func(db *DB, defaultTableName string) string {
+    return defaultTableName
+}
+```
+DefaultTableNameHandler default table name handler
+
+``` go
+var NowFunc = func() time.Time {
+    return time.Now()
+}
+```
+NowFunc returns current time, this function is exported in order to be able
+to give the flexibility to the developer to customize it according to their
+needs, e.g:
+
+
+```go
+gorm.NowFunc = func() time.Time {
+  return time.Now().UTC()
+}
+```
+
+
 
 ## Expr
 ``` go

@@ -686,7 +686,7 @@ If s doesn't end with suffix, s is returned unchanged.
 
 
 
-## Type Reader
+## Type: Reader
 ``` go
 type Reader struct {
     // contains filtered or unexported fields
@@ -702,7 +702,7 @@ from a string.
 
 
 
-### func NewReader
+### New Reader
 ``` go
 func NewReader(s string) *Reader
 ```
@@ -804,7 +804,7 @@ WriteTo implements the io.WriterTo interface.
 
 
 
-## Type Replacer
+## Type: Replacer
 ``` go
 type Replacer struct {
     // contains filtered or unexported fields
@@ -819,7 +819,7 @@ It is safe for concurrent use by multiple goroutines.
 
 
 
-### func NewReplacer
+### New Replacer
 ``` go
 func NewReplacer(oldnew ...string) *Replacer
 ```

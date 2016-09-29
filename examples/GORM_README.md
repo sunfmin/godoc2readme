@@ -211,7 +211,7 @@ ToDBName convert string to db name
 
 
 
-## Type Association
+## Type: Association
 ``` go
 type Association struct {
     Error error
@@ -283,7 +283,7 @@ Replace replace current associations with new one
 
 
 
-## Type Callback
+## Type: Callback
 ``` go
 type Callback struct {
     // contains filtered or unexported fields
@@ -367,7 +367,7 @@ Update could be used to register callbacks for updating object, refer `Create` f
 
 
 
-## Type Callback Processor
+## Type: Callback Processor
 ``` go
 type CallbackProcessor struct {
     // contains filtered or unexported fields
@@ -456,7 +456,7 @@ Replace a registered callback with new callback
 
 
 
-## Type DB
+## Type: DB
 ``` go
 type DB struct {
     Value        interface{}
@@ -473,7 +473,7 @@ DB contains information for current db connection
 
 
 
-### func Open
+### Open
 ``` go
 func Open(dialect string, args ...interface{}) (*DB, error)
 ```
@@ -1226,7 +1226,7 @@ Where return a new relation, filter records with given conditions, accepts `map`
 
 
 
-## Type Default Foreign Key Namer
+## Type: Default Foreign Key Namer
 ``` go
 type DefaultForeignKeyNamer struct {
 }
@@ -1249,7 +1249,7 @@ func (DefaultForeignKeyNamer) BuildForeignKeyName(tableName, field, dest string)
 
 
 
-## Type Dialect
+## Type: Dialect
 ``` go
 type Dialect interface {
     // GetName get dialect's name
@@ -1301,7 +1301,7 @@ Dialect interface contains behaviors that differ across SQL database
 
 
 
-## Type Errors
+## Type: Errors
 ``` go
 type Errors struct {
     // contains filtered or unexported fields
@@ -1345,7 +1345,7 @@ GetErrors get all happened errors
 
 
 
-## Type Field
+## Type: Field
 ``` go
 type Field struct {
     *StructField
@@ -1373,7 +1373,7 @@ Set set a value to the field
 
 
 
-## Type Join Table Foreign Key
+## Type: Join Table Foreign Key
 ``` go
 type JoinTableForeignKey struct {
     DBName            string
@@ -1391,7 +1391,7 @@ JoinTableForeignKey join table foreign key struct
 
 
 
-## Type Join Table Handler
+## Type: Join Table Handler
 ``` go
 type JoinTableHandler struct {
     TableName   string          `sql:"-"`
@@ -1473,7 +1473,7 @@ Table return join table's table name
 
 
 
-## Type Join Table Handler Interface
+## Type: Join Table Handler Interface
 ``` go
 type JoinTableHandlerInterface interface {
     // initialize join table handler
@@ -1503,7 +1503,7 @@ JoinTableHandlerInterface is an interface for how to handle many2many relations
 
 
 
-## Type Join Table Source
+## Type: Join Table Source
 ``` go
 type JoinTableSource struct {
     ModelType   reflect.Type
@@ -1521,7 +1521,7 @@ JoinTableSource is a struct that contains model type and foreign keys
 
 
 
-## Type Log Writer
+## Type: Log Writer
 ``` go
 type LogWriter interface {
     Println(v ...interface{})
@@ -1538,7 +1538,7 @@ LogWriter log writer interface
 
 
 
-## Type Logger
+## Type: Logger
 ``` go
 type Logger struct {
     LogWriter
@@ -1564,7 +1564,7 @@ Print format & print log
 
 
 
-## Type Model
+## Type: Model
 ``` go
 type Model struct {
     ID        uint `gorm:"primary_key"`
@@ -1591,7 +1591,7 @@ type User struct {
 
 
 
-## Type Model Struct
+## Type: Model Struct
 ``` go
 type ModelStruct struct {
     PrimaryFields []*StructField
@@ -1620,7 +1620,7 @@ TableName get model's table name
 
 
 
-## Type Relationship
+## Type: Relationship
 ``` go
 type Relationship struct {
     Kind                         string
@@ -1644,7 +1644,7 @@ Relationship described the relationship between models
 
 
 
-## Type Scope
+## Type: Scope
 ``` go
 type Scope struct {
     Search  *search
@@ -2007,7 +2007,7 @@ TableName return table name
 
 
 
-## Type Struct Field
+## Type: Struct Field
 ``` go
 type StructField struct {
     DBName          string

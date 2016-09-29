@@ -20,7 +20,7 @@ var pkgTemplate = `{{with .PDoc}}
 {{example_blocks $ .Name}}
 {{callgraph_html $ "" .Name}}{{end}}
 
-{{range .Types}}{{$tname := .Name}}## Type {{title .Name}}
+{{range .Types}}{{$tname := .Name}}## Type: {{title .Name}}
 {{node $ .Decl | pre}}
 {{comment_md .Doc}}{{range .Consts}}
 {{node $ .Decl | pre }}
@@ -32,7 +32,7 @@ var pkgTemplate = `{{with .PDoc}}
 {{implements_html $ $tname}}
 {{methodset_html $ $tname}}
 
-{{range .Funcs}}{{$name_html := html .Name}}### func {{$name_html}}
+{{range .Funcs}}### {{title .Name}}
 {{node $ .Decl | pre}}
 {{comment_md .Doc}}
 {{example_blocks $ .Name }}{{end}}

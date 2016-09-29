@@ -265,10 +265,12 @@ func ToMD(w io.Writer, text string, words map[string]string) {
 			w.Write(md_newline)
 		case opPre:
 			w.Write(md_newline)
+			w.Write([]byte("```go\n"))
 			for _, line := range b.lines {
-				w.Write(md_pre)
+				// w.Write(md_pre)
 				emphasize(w, line, nil, false)
 			}
+			w.Write([]byte("```\n"))
 			w.Write(md_newline)
 		}
 	}

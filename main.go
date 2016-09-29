@@ -15,6 +15,7 @@ import (
 	"flag"
 	"fmt"
 	"go/build"
+	"go/printer"
 	"log"
 	"os"
 	"path"
@@ -22,6 +23,8 @@ import (
 	"runtime"
 	"strings"
 	"text/template"
+	"unicode"
+	"unicode/utf8"
 
 	"golang.org/x/tools/godoc"
 	"golang.org/x/tools/godoc/vfs"
@@ -39,8 +42,8 @@ var (
 	showTimestamps = flag.Bool("timestamps", false, "show timestamps with directory listings")
 	templateDir    = flag.String("templates", "", "directory containing alternate template files")
 	showPlayground = flag.Bool("play", false, "enable playground in web interface")
-	showExamples   = flag.Bool("ex", false, "show examples in command line mode")
-	declLinks      = flag.Bool("links", true, "link identifiers to their declarations")
+	// showExamples   = flag.Bool("ex", false, "show examples in command line mode")
+	declLinks = flag.Bool("links", true, "link identifiers to their declarations")
 )
 
 func usage() {
@@ -55,14 +58,99 @@ var (
 	fs   = vfs.NameSpace{}
 
 	funcs = map[string]interface{}{
-		"comment_md": comment_mdFunc,
-		"base":       path.Base,
-		"md":         mdFunc,
-		"pre":        preFunc,
+		"comment_md":     comment_mdFunc,
+		"base":           path.Base,
+		"md":             mdFunc,
+		"pre":            preFunc,
+		"title":          title,
+		"debug":          debug,
+		"example_blocks": example_blocks,
 	}
 )
 
 const punchCardWidth = 80
+
+func debug(i interface{}) string {
+	// p := i.(*doc.Package)
+	fmt.Printf("!!!+v\n", i)
+	return ""
+}
+
+func startsWithUppercase(s string) bool {
+	r, _ := utf8.DecodeRuneInString(s)
+	return unicode.IsUpper(r)
+}
+
+// stripExampleSuffix strips lowercase braz in Foo_braz or Foo_Bar_braz from name
+// while keeping uppercase Braz in Foo_Braz.
+func stripExampleSuffix(name string) string {
+	if i := strings.LastIndex(name, "_"); i != -1 {
+		if i < len(name)-1 && !startsWithUppercase(name[i+1:]) {
+			name = name[:i]
+		}
+	}
+	return name
+}
+
+func example_blocks(info *godoc.PageInfo, funcName string) string {
+
+	var buf bytes.Buffer
+	first := true
+	for _, eg := range info.Examples {
+		name := stripExampleSuffix(eg.Name)
+		if name != funcName {
+			continue
+		}
+
+		if !first {
+			buf.WriteString("\n")
+		}
+		first = false
+
+		// print code
+		cnode := &printer.CommentedNode{Node: eg.Code, Comments: eg.Comments}
+		var buf1 bytes.Buffer
+		pres.WriteNode(&buf1, info.FSet, cnode)
+		code := buf1.String()
+		// Additional formatting if this is a function body.
+		if n := len(code); n >= 2 && code[0] == '{' && code[n-1] == '}' {
+			// remove surrounding braces
+			code = code[1 : n-1]
+			// unindent
+			code = strings.Replace(code, "\n    ", "\n", -1)
+		}
+		code = strings.Trim(code, "\n")
+		code = strings.Replace(code, "\n", "\n\t", -1)
+
+		buf.WriteString(eg.Doc)
+		buf.WriteString("```go\n\t")
+		buf.WriteString(code)
+		buf.WriteString("\n```\n")
+	}
+	return buf.String()
+}
+
+func title(funcName string) string {
+	inputs := []rune(funcName)
+	results := []rune{}
+	var isPrevUpper = false
+	for i, c := range inputs {
+		if i == 0 {
+			results = append(results, c)
+			isPrevUpper = true
+			continue
+		}
+		if unicode.IsUpper(c) && !isPrevUpper {
+			results = append(results, ' ')
+			results = append(results, c)
+			isPrevUpper = true
+			continue
+		}
+		results = append(results, c)
+		isPrevUpper = false
+	}
+	return string(results)
+}
 
 func comment_mdFunc(comment string) string {
 	var buf bytes.Buffer
@@ -117,7 +205,7 @@ func main() {
 	pres.TabWidth = *tabWidth
 	pres.ShowTimestamps = *showTimestamps
 	pres.ShowPlayground = *showPlayground
-	pres.ShowExamples = *showExamples
+	pres.ShowExamples = true
 	pres.DeclLinks = *declLinks
 	pres.SrcMode = false
 	pres.HTMLMode = false

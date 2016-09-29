@@ -64,18 +64,12 @@ var (
 		"md":             mdFunc,
 		"pre":            preFunc,
 		"title":          title,
-		"debug":          debug,
 		"example_blocks": example_blocks,
+		"archor":         archor,
 	}
 )
 
 const punchCardWidth = 80
-
-func debug(i interface{}) string {
-	// p := i.(*doc.Package)
-	fmt.Printf("!!!+v\n", i)
-	return ""
-}
 
 func startsWithUppercase(s string) bool {
 	r, _ := utf8.DecodeRuneInString(s)
@@ -135,10 +129,13 @@ func title(funcName string) string {
 	inputs := []rune(funcName)
 	results := []rune{}
 	var isPrevUpper = false
-	for i, c := range inputs {
-		if i == 0 {
+	for _, c := range inputs {
+		if c == '*' {
+			continue
+		}
+		if len(results) == 0 {
 			results = append(results, c)
-			isPrevUpper = true
+			isPrevUpper = unicode.IsUpper(c)
 			continue
 		}
 		if unicode.IsUpper(c) && !isPrevUpper {
@@ -151,6 +148,14 @@ func title(funcName string) string {
 		isPrevUpper = false
 	}
 	return string(results)
+}
+
+func archor(funcNames ...string) string {
+	rs := []string{}
+	for _, funcName := range funcNames {
+		rs = append(rs, strings.Replace(strings.ToLower(title(funcName)), " ", "-", -1))
+	}
+	return strings.Join(rs, "-")
 }
 
 func comment_mdFunc(comment string) string {

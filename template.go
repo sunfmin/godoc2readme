@@ -32,13 +32,13 @@ var pkgTemplate = `{{with .PDoc}}
 {{implements_html $ $tname}}
 {{methodset_html $ $tname}}
 
-{{range .Funcs}}### {{title .Name}}
+{{range .Funcs}}### {{title $tname}}: {{title .Name}}
 {{node $ .Decl | pre}}
 {{comment_md .Doc}}
 {{example_blocks $ .Name }}{{end}}
 {{callgraph_html $ "" .Name}}
 
-{{range .Methods}}### {{title .Recv|md}}: {{title .Name}}
+{{range .Methods}}### {{title .Recv}}: {{title .Name}}
 {{node $ .Decl | pre}}
 {{comment_md .Doc}}
 {{$name := printf "%s_%s" $tname .Name}}{{example_blocks $ $name}}

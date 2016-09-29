@@ -702,7 +702,7 @@ from a string.
 
 
 
-### New Reader
+### Reader: New Reader
 ``` go
 func NewReader(s string) *Reader
 ```
@@ -819,7 +819,7 @@ It is safe for concurrent use by multiple goroutines.
 
 
 
-### New Replacer
+### Replacer: New Replacer
 ``` go
 func NewReplacer(oldnew ...string) *Replacer
 ```

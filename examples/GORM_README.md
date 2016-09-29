@@ -473,7 +473,7 @@ DB contains information for current db connection
 
 
 
-### Open
+### DB: Open
 ``` go
 func Open(dialect string, args ...interface{}) (*DB, error)
 ```

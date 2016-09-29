@@ -6,8 +6,7 @@ var pkgTemplate = `{{with .PDoc}}
 
 {{if .Consts}}
 * [Constants](#constants){{end}}{{if .Vars}}
-* [Variables](#variables){{end}}
-{{range .Funcs }}
+* [Variables](#variables){{end}}{{range .Funcs }}
 * [{{title .Name}}](#{{archor .Name}}){{- end}}{{- range .Types}}{{$tname := .Name}}
 * [Type {{title .Name}}](#{{archor "Type" .Name}}){{- range .Funcs}}
   * [{{title .Name}}](#{{archor $tname .Name}}){{- end}}{{- range .Methods}}

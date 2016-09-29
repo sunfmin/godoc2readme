@@ -4,7 +4,6 @@
 
 
 * [Variables](#variables)
-
 * [Expr](#expr)
 * [Parse Field Struct For Dialect](#parse-field-struct-for-dialect)
 * [Register Dialect](#register-dialect)

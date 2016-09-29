@@ -2,12 +2,13 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// godoc2md converts godoc formatted package documentation into Markdown format.
+// # godoc to README.md
+// godoc2readme converts godoc formatted package documentation into Markdown format that can be used directly as github README.md.
 //
 //
 // Usage
 //
-//    godoc2md $PACKAGE > $GOPATH/src/$PACKAGE/README.md
+//    godoc2readme github.com/sunfmin/godoc2readme > README.md
 package main
 
 import (
@@ -154,7 +155,7 @@ func title(funcName string) string {
 
 func comment_mdFunc(comment string) string {
 	var buf bytes.Buffer
-	ToMD(&buf, comment, nil)
+	toMD(&buf, comment, nil)
 	return buf.String()
 }
 

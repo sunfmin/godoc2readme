@@ -245,7 +245,7 @@ func anchorID(line string) string {
 // Go identifiers that appear in the words map are italicized; if the corresponding
 // map value is not the empty string, it is considered a URL and the word is converted
 // into a link.
-func ToMD(w io.Writer, text string, words map[string]string) {
+func toMD(w io.Writer, text string, words map[string]string) {
 	for _, b := range blocks(text) {
 		switch b.op {
 		case opPara:

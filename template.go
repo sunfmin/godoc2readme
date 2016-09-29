@@ -34,5 +34,4 @@ var pkgTemplate = `{{with .PDoc}}
 {{$name := printf "%s_%s" $tname .Name}}{{example_blocks $ $name}}
 {{callgraph_html $ .Recv .Name}}
 {{end}}{{end}}{{end}}
-
 `

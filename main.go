@@ -87,15 +87,11 @@ func stripExampleSuffix(name string) string {
 	return name
 }
 
-func example_blocks(info *godoc.PageInfo, funcName string) string {
+func example_blocks(info *godoc.PageInfo) string {
 
 	var buf bytes.Buffer
 	first := true
 	for _, eg := range info.Examples {
-		name := stripExampleSuffix(eg.Name)
-		if name != funcName {
-			continue
-		}
 
 		if !first {
 			buf.WriteString("\n")
